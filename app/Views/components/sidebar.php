@@ -29,6 +29,14 @@
         </li>
         <?php endif; ?>
 
+        <!-- HISTORY -->
+        <li class="nav-item">
+            <a class="nav-link <?= (uri_string() == 'history') ? '' : 'collapsed' ?>" href="<?= base_url('history') ?>">
+                <i class="bi bi-clock-history"></i>
+                <span>History</span>
+            </a>
+        </li>
+
         <!-- PROFILE -->
         <li class="nav-item">
             <a class="nav-link <?= (uri_string() == 'profile') ? '' : 'collapsed' ?>" href="<?= base_url('profile') ?>">
