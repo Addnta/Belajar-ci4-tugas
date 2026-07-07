@@ -1,69 +1,209 @@
-# CodeIgniter 4 Application Starter
+# 🛒 Toko Online CodeIgniter 4
 
-## What is CodeIgniter?
+Proyek ini adalah platform toko online yang dibangun menggunakan [CodeIgniter 4](https://codeigniter.com/). Sistem ini menyediakan beberapa fungsionalitas untuk toko online, termasuk manajemen produk, keranjang belanja, sistem checkout dengan integrasi RajaOngkir, dan sistem transaksi.
 
-CodeIgniter is a PHP full-stack web framework that is light, fast, flexible and secure.
-More information can be found at the [official site](https://codeigniter.com).
+## 📋 Daftar Isi
 
-This repository holds a composer-installable app starter.
-It has been built from the
-[development repository](https://github.com/codeigniter4/CodeIgniter4).
+- [Fitur](#fitur)
+- [Persyaratan Sistem](#persyaratan-sistem)
+- [Instalasi](#instalasi)
+- [Struktur Proyek](#struktur-proyek)
+- [Teknologi yang Digunakan](#teknologi-yang-digunakan)
 
-More information about the plans for version 4 can be found in [CodeIgniter 4](https://forum.codeigniter.com/forumdisplay.php?fid=28) on the forums.
+## ✨ Fitur
 
-You can read the [user guide](https://codeigniter.com/user_guide/)
-corresponding to the latest version of the framework.
+### Katalog Produk
+- Tampilan produk dengan gambar
+- Pencarian dan filter produk
+- Manajemen produk (CRUD) untuk admin
+- Export data produk ke PDF
 
-## Installation & updates
+### Keranjang Belanja
+- Tambah/hapus produk dari keranjang
+- Update jumlah produk
+- Mengosongkan keranjang
+- Tampilan real-time total harga
 
-`composer create-project codeigniter4/appstarter` then `composer update` whenever
-there is a new release of the framework.
+### Sistem Checkout & Transaksi
+- Proses checkout dengan data pengiriman
+- Integrasi dengan API RajaOngkir untuk:
+  - Pencarian lokasi tujuan pengiriman
+  - Perhitungan biaya ongkir otomatis
+  - Pilihan layanan kurir (JNE, dsb)
+- Perhitungan total otomatis dengan biaya ongkir
+- Penyimpanan data transaksi ke database
 
-When updating, check the release notes to see if there are any changes you might need to apply
-to your `app` folder. The affected files can be copied or merged from
-`vendor/codeigniter4/framework/app`.
+### Sistem Autentikasi
+- Login pengguna dengan role (admin/guest)
+- Logout pengguna
+- Session management
 
-## Setup
+### Panel Admin
+- Manajemen produk (Create, Read, Update, Delete)
+- View detail produk
+- QR Code untuk produk
+- Export produk ke PDF
 
-Copy `env` to `.env` and tailor for your app, specifically the baseURL
-and any database settings.
+### UI Responsif
+- Template NiceAdmin Bootstrap 5
+- Responsive design
+- Components Bootstrap
 
-## Important Change with index.php
+## 🔧 Persyaratan Sistem
 
-`index.php` is no longer in the root of the project! It has been moved inside the *public* folder,
-for better security and separation of components.
+- PHP >= 8.2
+- MySQL/MariaDB
+- Composer
+- XAMPP (untuk development)
+- Web server (Apache)
 
-This means that you should configure your web server to "point" to your project's *public* folder, and
-not to the project root. A better practice would be to configure a virtual host to point there. A poor practice would be to point your web server to the project root and expect to enter *public/...*, as the rest of your logic and the
-framework are exposed.
+## 📦 Instalasi
 
-**Please** read the user guide for a better explanation of how CI4 works!
+### Untuk Perangkat Baru (Clone dari GitHub)
 
-## Repository Management
+1. **Clone repository**
+   ```bash
+   git clone https://github.com/Addnta/Belajar-ci4-tugas.git
+   cd Belajar-ci4-tugas
+   ```
 
-We use GitHub issues, in our main repository, to track **BUGS** and to track approved **DEVELOPMENT** work packages.
-We use our [forum](http://forum.codeigniter.com) to provide SUPPORT and to discuss
-FEATURE REQUESTS.
+2. **Install dependensi PHP**
+   ```bash
+   composer install
+   ```
 
-This repository is a "distribution" one, built by our release preparation script.
-Problems with it can be raised on our forum, or as issues in the main repository.
+3. **Siapkan template NiceAdmin**
+   - Download dari [Google Drive](https://drive.google.com/file/d/1VwpEmBEcu0HccuoZG7h3HoKooIonZZ7H/view?usp=sharing)
+   - Copy folder `vendor` dari NiceAdmin ke `public/NiceAdmin/assets`
 
-## Server Requirements
+4. **Konfigurasi Database**
+   - Buka XAMPP dan start Apache & MySQL
+   - Buat database baru di phpMyAdmin dengan nama `ci4`
+   - Copy file `.env` dan sesuaikan konfigurasi database jika diperlukan
 
-PHP version 8.2 or higher is required, with the following extensions installed:
+5. **Setup Database**
+   ```bash
+   php spark migrate
+   php spark db:seed ProductSeeder
+   php spark db:seed UserSeeder
+   ```
 
-- [intl](http://php.net/manual/en/intl.requirements.php)
-- [mbstring](http://php.net/manual/en/mbstring.installation.php)
+6. **Jalankan Aplikasi**
+   ```bash
+   php spark serve
+   ```
 
-> [!WARNING]
-> - The end of life date for PHP 7.4 was November 28, 2022.
-> - The end of life date for PHP 8.0 was November 26, 2023.
-> - The end of life date for PHP 8.1 was December 31, 2025.
-> - If you are still using below PHP 8.2, you should upgrade immediately.
-> - The end of life date for PHP 8.2 will be December 31, 2026.
+7. **Akses Aplikasi**
+   - Buka browser dan akses `http://localhost:8080`
+   - Login dengan akun admin atau guest
 
-Additionally, make sure that the following extensions are enabled in your PHP:
+## 🏗️ Struktur Proyek
 
-- json (enabled by default - don't turn it off)
-- [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
-- [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+```
+Myproject/
+├── app/
+│   ├── Controllers/          # Logika aplikasi
+│   │   ├── AuthController.php
+│   │   ├── ProdukController.php
+│   │   ├── TransaksiController.php
+│   │   └── Api/
+│   ├── Models/               # Model database
+│   │   ├── ProductModel.php
+│   │   ├── UserModel.php
+│   │   ├── TransactionModel.php
+│   │   └── TransactionDetailModel.php
+│   ├── Views/                # Template UI
+│   │   ├── v_home.php
+│   │   ├── v_produk.php
+│   │   ├── v_keranjang.php
+│   │   ├── v_checkout.php
+│   │   ├── v_login.php
+│   │   ├── layout.php
+│   │   └── components/
+│   ├── Services/             # Business logic
+│   │   └── RajaOngkirService.php
+│   ├── Config/
+│   │   ├── Routes.php        # Routing configuration
+│   │   └── Database.php
+│   ├── Database/
+│   │   ├── Migrations/       # Database migrations
+│   │   └── Seeds/            # Database seeders
+│   └── Filters/
+│       └── Auth.php
+├── public/
+│   ├── index.php
+│   ├── img/                  # Gambar produk
+│   └── NiceAdmin/            # Template admin
+├── vendor/                   # Composer dependencies
+├── tests/
+│   └── api/                  # API testing files
+├── .env                      # Environment configuration
+├── composer.json
+└── README.md
+```
+
+## 🛠️ Teknologi yang Digunakan
+
+- **Backend Framework**: CodeIgniter 4.7.2
+- **Database**: MySQL/MariaDB
+- **Frontend Template**: NiceAdmin (Bootstrap 5)
+- **Frontend Library**: Select2, jQuery
+- **External API**: RajaOngkir API (Shipping Cost)
+- **PDF Export**: DOMPDF
+- **Server**: Apache (XAMPP)
+
+## 📝 Akun Testing
+
+Setelah menjalankan seeder, gunakan akun berikut untuk testing:
+
+### Admin
+- Username: `admin` (atau sesuai di UserSeeder)
+- Password: Lihat di database
+
+### Guest
+- Username: `guest` (atau sesuai di UserSeeder)
+- Password: Lihat di database
+
+## 📚 Dokumentasi API
+
+### RajaOngkir Integration
+
+Project ini mengintegrasikan RajaOngkir API untuk:
+
+1. **Search Destination** - Mencari lokasi tujuan pengiriman
+   - Endpoint: `GET /ajax/destinations`
+   - Parameter: `q` (keyword pencarian)
+
+2. **Calculate Cost** - Menghitung biaya pengiriman
+   - Endpoint: `GET /ajax/costs`
+   - Parameter: `destination` (ID lokasi tujuan)
+
+Untuk setup, tambahkan API Key RajaOngkir ke file `.env`:
+```env
+RAJAONGKIR_API_KEY=your_api_key_here
+RAJAONGKIR_BASE_URL=https://rajaongkir.komerce.id/api/v1/
+```
+
+## 🚀 Workflow Git
+
+Untuk development berkelanjutan:
+
+1. **Sebelum mulai coding**
+   ```bash
+   git pull origin main
+   ```
+
+2. **Setelah selesai coding**
+   ```bash
+   git add .
+   git commit -m "Deskripsi perubahan"
+   git push origin main
+   ```
+
+## 📧 Kontak & Lisensi
+
+Proyek ini dibuat sebagai tugas pembelajaran CodeIgniter 4.
+
+---
+
+**Last Updated**: 7 Juli 2026
