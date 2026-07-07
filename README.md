@@ -166,6 +166,147 @@ Setelah menjalankan seeder, gunakan akun berikut untuk testing:
 
 ## 📚 Dokumentasi API
 
+### RESTful API Server
+
+Aplikasi ini menyediakan RESTful API untuk integrasi dengan aplikasi eksternal.
+
+#### Authentication
+Semua endpoint memerlukan Bearer Token authentication di header:
+```
+Authorization: Bearer MY_API_KEY
+```
+
+Konfigurasi API Key di `.env`:
+```env
+MY_API_KEY=my-secret-token
+```
+
+#### Products API
+
+**1. Get All Products (Dengan Pagination)**
+```
+GET /api/products?page=1&per_page=10
+Authorization: Bearer my-secret-token
+```
+
+Response:
+```json
+{
+  "data": [
+    {
+      "id": 1,
+      "nama": "Yoga Slim 7i",
+      "harga": 15000000,
+      "jumlah": 10
+    }
+  ],
+  "pagination": {
+    "current_page": 1,
+    "per_page": 10,
+    "last_page": 2,
+    "total_data": 15,
+    "has_next": true,
+    "has_prev": false
+  }
+}
+```
+
+**2. Get Product by ID**
+```
+GET /api/products/{id}
+Authorization: Bearer my-secret-token
+```
+
+**3. Create Product**
+```
+POST /api/products
+Authorization: Bearer my-secret-token
+Content-Type: application/json
+
+{
+  "nama": "Yoga Slim 7i Aura Edition",
+  "harga": 15000000,
+  "jumlah": 10
+}
+```
+
+**4. Update Product (All Fields)**
+```
+PUT /api/products/{id}
+Authorization: Bearer my-secret-token
+Content-Type: application/json
+
+{
+  "nama": "Yoga Slim 7i Aura Editions",
+  "harga": 25000000,
+  "jumlah": 20
+}
+```
+
+**5. Update Product (Partial)**
+```
+PATCH /api/products/{id}
+Authorization: Bearer my-secret-token
+Content-Type: application/json
+
+{
+  "jumlah": 25
+}
+```
+
+**6. Delete Product**
+```
+DELETE /api/products/{id}
+Authorization: Bearer my-secret-token
+```
+
+#### Transactions API
+
+**Get Transactions (Dengan Date Range & Pagination)**
+```
+GET /api/transactions?start=2026-06-01&end=2026-06-30&page=1&per_page=10
+Authorization: Bearer my-secret-token
+```
+
+Response:
+```json
+{
+  "filter": {
+    "start": "2026-06-01",
+    "end": "2026-06-30"
+  },
+  "data": [
+    {
+      "id": 1,
+      "username": "user1",
+      "total_harga": 16000000,
+      "alamat": "Jakarta",
+      "ongkir": 11000,
+      "status": 1,
+      "details": [
+        {
+          "id": 1,
+          "transaction_id": 1,
+          "product_id": 1,
+          "product_name": "Yoga Slim 7i",
+          "jumlah": 1,
+          "diskon": 0,
+          "subtotal_harga": 15000000
+        }
+      ]
+    }
+  ],
+  "pagination": {
+    "current_page": 1,
+    "per_page": 10,
+    "last_page": 1,
+    "total_data": 1,
+    "has_next": false,
+    "has_prev": false
+  }
+}
+```
+
 ### RajaOngkir Integration
 
 Project ini mengintegrasikan RajaOngkir API untuk:
@@ -183,6 +324,12 @@ Untuk setup, tambahkan API Key RajaOngkir ke file `.env`:
 RAJAONGKIR_API_KEY=your_api_key_here
 RAJAONGKIR_BASE_URL=https://rajaongkir.komerce.id/api/v1/
 ```
+
+#### Testing API
+
+Gunakan REST Client extension di VS Code:
+- Buka file `tests/api/product.rest` untuk testing product endpoints
+- Buka file `tests/api/transaction.rest` untuk testing transaction endpoints
 
 ## 🚀 Workflow Git
 
@@ -206,4 +353,4 @@ Proyek ini dibuat sebagai tugas pembelajaran CodeIgniter 4.
 
 ---
 
-**Last Updated**: 7 Juli 2026
+**Last Updated**: 8 Juli 2026
