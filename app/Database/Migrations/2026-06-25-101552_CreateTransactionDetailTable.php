@@ -4,10 +4,14 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateTransactionDetailTable extends Migration
+class CreateTransactionDetailTableCurrent extends Migration
 {
     public function up()
     {
+        if ($this->db->tableExists('transaction_detail')) {
+            return;
+        }
+
         $this->forge->addField([
             'id'                => [
                 'type'           => 'INT',
@@ -59,6 +63,8 @@ class CreateTransactionDetailTable extends Migration
 
     public function down()
     {
-        $this->forge->dropTable('transaction_detail');
+        if ($this->db->tableExists('transaction_detail')) {
+            $this->forge->dropTable('transaction_detail');
+        }
     }
 }

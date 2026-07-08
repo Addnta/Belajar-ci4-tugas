@@ -4,7 +4,7 @@ namespace App\Database\Migrations;
 
 use CodeIgniter\Database\Migration;
 
-class CreateTransactionDetailTable extends Migration
+class CreateTransactionDetailTablePlaceholder extends Migration
 {
     public function up()
     {
