@@ -7,6 +7,8 @@ use App\Models\ProductModel;
 
 class ProdukController extends ResourceController
 {
+    private const ALLOWED_FIELDS = ['nama', 'harga', 'jumlah'];
+
     protected $modelName = ProductModel::class;
     protected $format = 'json';
 
@@ -38,6 +40,13 @@ class ProdukController extends ResourceController
             'status'  => false,
             'message' => 'Unauthorized'
         ], 401);
+    }
+
+    private function payload(): array
+    {
+        $data = $this->request->getJSON(true) ?? [];
+
+        return array_intersect_key($data, array_flip(self::ALLOWED_FIELDS));
     }
 
     public function index()
@@ -85,7 +94,7 @@ class ProdukController extends ResourceController
             return $this->unauthorized();
         }
 
-        $data = $this->request->getJSON(true);
+        $data = $this->payload();
 
         $this->model->insert($data);
 
@@ -104,7 +113,7 @@ class ProdukController extends ResourceController
             return $this->failNotFound('Produk tidak ditemukan');
         }
 
-        $data = $this->request->getJSON(true);
+        $data = $this->payload();
 
         $this->model->update($id, $data);
 

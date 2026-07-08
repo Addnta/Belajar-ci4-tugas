@@ -61,7 +61,10 @@ class TransaksiController extends BaseController
         $query = $this->transactionModel->orderBy('created_at', 'DESC');
 
         if ($start && $end) {
-            $query->where('created_at >=', $start)->where('created_at <=', $end);
+            // created_at bertipe DATETIME, jadi akhir tanggal dibuat mencakup seluruh hari.
+            $query
+                ->where('created_at >=', $start . ' 00:00:00')
+                ->where('created_at <=', $end . ' 23:59:59');
         }
         
         // Pagination
